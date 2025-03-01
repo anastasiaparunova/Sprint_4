@@ -25,7 +25,7 @@ public class OrderStatusTest {
     }
 
     @Test
-    public void test() {
+    public void shouldDisplayOrderNotFound() {
         MainPageElements objMainPage = new MainPageElements(driver);
 
         //Принимаем куки
