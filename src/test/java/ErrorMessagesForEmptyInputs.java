@@ -50,7 +50,7 @@ public class ErrorMessagesForEmptyInputs {
     }
 
     @Test
-    public void test() {
+    public void shouldShowErrorMessagesForEmptyInput() {
 
         MainPageElements objMainPage = new MainPageElements(driver);
 

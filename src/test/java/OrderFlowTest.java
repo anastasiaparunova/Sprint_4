@@ -24,12 +24,13 @@ public class OrderFlowTest {
     private final String duration;
     private final String colour;
     private final String comment;
+    private final String buttonLocation;
 
     private final String expectedSuccessMessage = "Заказ оформлен";
 
     private WebDriver driver;
 
-    public OrderFlowTest(String name, String surname, String address, String metro, String phone, String date, String duration, String colour, String comment) {
+    public OrderFlowTest(String name, String surname, String address, String metro, String phone, String date, String duration, String colour, String comment, String buttonLocation) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -39,14 +40,17 @@ public class OrderFlowTest {
         this.duration = duration;
         this.colour = colour;
         this.comment = comment;
+        this.buttonLocation = buttonLocation;
     }
 
-    //Параметры для тестирования.
+    //Параметры для тестирования. Два набора тестовых данных для каждой кнопки.
     @Parameterized.Parameters
     public static Object[][] testingData() {
         return new Object[][]{
-                {"Настя", "Парунова", "проспект 50 лет Октября", "Сокольники", "89631235643", "06.04.2025", "сутки", "серая безысходность", "Супер-комментарий для супер-курьера"},
-                {"Кузьма", "Петров", "Улица Пушкина, дом 2К", "Петровско-Разумовская", "+79021233212", "29.05.2025", "шестеро суток", "чёрный жемчуг", ""},
+                {"Настя", "Парунова", "проспект 50 лет Октября", "Сокольники", "89631235643", "06.04.2025", "сутки", "серая безысходность", "Супер-комментарий для супер-курьера", "header"},
+                {"Кузьма", "Петров", "Улица Пушкина, дом 2К", "Петровско-Разумовская", "+79021233212", "29.05.2025", "шестеро суток", "чёрный жемчуг", "", "header"},
+                {"Соня", "Садовская", "проспект Маршала Жукова", "Хорошёво", "89991235640", "11.05.2025", "двое суток", "серая безысходность", "", "middle"},
+                {"Кармислав", "Чернов", "Молерова 86", "Охотный Ряд", "+79111111111", "11.06.2025", "трое суток", "чёрный жемчуг", "Темный комментарий", "middle"},
         };
     }
 
@@ -59,47 +63,19 @@ public class OrderFlowTest {
     }
 
     @Test
-    public void testHeader() {
+    public void testSuccessfulOrderPlacement () {
 
         MainPageElements objMainPage = new MainPageElements(driver);
 
         //Кликаем на кнопку куки "все уже привыкли"
         objMainPage.clickAcceptCookieButton();
-        //Кликаем на кнопку "Заказать" в хедере
-        objMainPage.clickOrderButtonHeader();
 
-        OrderPersonInfo objOrderPersonInfo = new OrderPersonInfo(driver);
-
-        //Заполняем поля формы «Для кого самокат»
-        objOrderPersonInfo.fillOrderForm(name, surname, address, metro, phone);
-        //Нажимаем на кнопку «Далее»
-        objOrderPersonInfo.clickButtonNext();
-
-        OrderRentInfo objOrderRentInfo = new OrderRentInfo(driver);
-
-        //Заполняем поля формы «Про аренду»
-        objOrderRentInfo.fillRentInfo(date, duration, colour, comment);
-        //Нажимаем на кнопку «Заказать»
-        objOrderRentInfo.clickButtonToOrder();
-        //А потом кнопку «Да»
-        objOrderRentInfo.clickButtonYes();
-
-        //Смотрим, какой текст у нас в заголовке
-        String actualSuccessMessage;
-        actualSuccessMessage = objOrderRentInfo.getOrderHeaderText();
-
-        Assert.assertTrue("Проблема с подтверждением заказа", actualSuccessMessage.contains(expectedSuccessMessage));
-    }
-
-    @Test
-    public void testMiddle() {
-
-        MainPageElements objMainPage = new MainPageElements(driver);
-
-        //Кликаем на кнопку куки «все уже привыкли»
-        objMainPage.clickAcceptCookieButton();
-        //Кликаем на кнопку «Заказать» в середине страницы
-        objMainPage.clickOrderButtonMiddle();
+        //Проверяем, на какую кнопку нажимать, потом кликаем
+        if (buttonLocation.equals("header")) {
+            objMainPage.clickOrderButtonHeader();
+        } else {
+            objMainPage.clickOrderButtonMiddle();
+        }
 
         OrderPersonInfo objOrderPersonInfo = new OrderPersonInfo(driver);
 

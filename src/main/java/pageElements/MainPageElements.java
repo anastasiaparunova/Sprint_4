@@ -20,6 +20,12 @@ public class MainPageElements {
     // Кнопка «Заказать» в середине страницы
     private final By orderButtonMiddle = By.xpath(".//button[contains(@class,'Button_Middle__1CSJM') and text()='Заказать']");
 
+    //Элемент с вопросом
+    private final By question = By.className("accordion__heading");
+
+    //Элемент с ответом
+    private final By answer = By.xpath(".//div[@class='accordion__panel']/p");
+
     // Кнопка «Статус заказа»
     private final By orderStatusButton = By.className("Header_Link__1TAG7");
 
@@ -39,19 +45,20 @@ public class MainPageElements {
     private final By scooterLogo = By.xpath(".//img[@alt='Scooter']");
 
 
+
     // Клик на кнопку принятия куки
     public void clickAcceptCookieButton() {
         driver.findElement(acceptCookieButton).click();
     }
 
     // Клик на элемент с вопросом
-    public void clickQuestion(String questionId) {
-        driver.findElement(By.id(questionId)).click();
+    public void clickQuestion(int index) {
+        driver.findElements(question).get(index).click();
     }
 
     // Получаем текст ответа на нажатый вопрос
-    public String getAnswerText(String answerPanel) {
-        return driver.findElement(By.xpath(".//div[@id='" + answerPanel + "']/p")).getText();
+    public String getAnswerText(int index) {
+        return driver.findElements(answer).get(index).getText();
     }
 
     // Клик на кнопку «Заказать» в хедере

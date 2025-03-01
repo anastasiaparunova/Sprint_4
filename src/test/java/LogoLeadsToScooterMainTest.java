@@ -23,7 +23,7 @@ public class LogoLeadsToScooterMainTest {
     }
 
     @Test
-    public void test() {
+    public void shouldLeadToScooterMainPage() {
 
         MainPageElements objMainPage = new MainPageElements(driver);
 

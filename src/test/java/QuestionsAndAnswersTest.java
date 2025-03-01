@@ -15,15 +15,13 @@ import java.time.Duration;
 @RunWith(Parameterized.class)
 public class QuestionsAndAnswersTest {
 
-    private final String questionId;
-    private final String answerPanel;
+    private final int index;
     private final String answerText;
 
     private WebDriver driver;
 
-    public QuestionsAndAnswersTest(String questionId, String answerPanel, String answerText) {
-        this.questionId = questionId;
-        this.answerPanel = answerPanel;
+    public QuestionsAndAnswersTest(int index, String answerText) {
+        this.index = index;
         this.answerText = answerText;
     }
 
@@ -31,9 +29,9 @@ public class QuestionsAndAnswersTest {
     @Parameterized.Parameters
     public static Object[][] testingData() {
         return new Object[][]{
-                {"accordion__heading-0", "accordion__panel-0", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
-                {"accordion__heading-3", "accordion__panel-3", "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
-                {"accordion__heading-7", "accordion__panel-7", "Да, обязательно. Всем самокатов! И Москве, и Московской области."},
+                {0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
+                {3, "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+                {7, "Да, обязательно. Всем самокатов! И Москве, и Московской области."},
         };
     }
 
@@ -46,17 +44,17 @@ public class QuestionsAndAnswersTest {
     }
 
     @Test
-    public void test() {
+    public void shouldDisplayCorrectAnswerWhenQuestionIsClicked() {
 
         MainPageElements objMainPage = new MainPageElements(driver);
 
         //Кликаем на кнопку куки "все уже привыкли"
         objMainPage.clickAcceptCookieButton();
         //Кликаем на вопрос
-        objMainPage.clickQuestion(questionId);
+        objMainPage.clickQuestion(index);
         //Получаем текст ответа
         String actualAnswer;
-        actualAnswer = objMainPage.getAnswerText(answerPanel);
+        actualAnswer = objMainPage.getAnswerText(index);
         //Сравниваем текст ответа на сайте с ожидаемым
         Assert.assertEquals("Ответ не совпадает с ожидаемым:", answerText, actualAnswer);
     }

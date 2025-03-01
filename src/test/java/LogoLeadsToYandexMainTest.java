@@ -23,7 +23,7 @@ public class LogoLeadsToYandexMainTest {
     }
 
     @Test
-    public void test() {
+    public void shouldLeadToYandexMainPage() {
         MainPageElements objMainPage = new MainPageElements(driver);
 
         //Принимаем куки

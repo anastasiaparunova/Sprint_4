@@ -59,7 +59,7 @@ public class ErrorMessagesForInvalidInputs {
     }
 
     @Test
-    public void test() {
+    public void shouldShowErrorMessagesForInvalidInput() {
         MainPageElements objMainPage = new MainPageElements(driver);
 
         //Кликаем на кнопку куки "все уже привыкли"
